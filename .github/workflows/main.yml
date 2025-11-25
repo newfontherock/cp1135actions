@@ -12,3 +12,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@4
+      
+      - name:  Deploy to EC2 via SSh
+        uses: applyboy/ssh-action@v1
+        with: 
+          host: $({ secrets.EC2_HOST  })
+          username: $({  secrets.EC2_USERNAME})
+          key: $({  secrets.EC2_SSH_KEY })
+          scripts: |
+            #navigate to the project directory on EC2
+            cd /var/www/dave
+
+            #pull the latest code from GitHub
+            git pull origin main
